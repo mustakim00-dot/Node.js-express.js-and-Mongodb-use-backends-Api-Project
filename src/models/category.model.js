@@ -14,11 +14,11 @@ slug:{
 image: {
     url: {
         type: String,
-        required: true,
+        //required: true,
     },
     public_id:{
         type: String,
-        required: true,
+        //required: true,
     },
 },
 subcategories:[{

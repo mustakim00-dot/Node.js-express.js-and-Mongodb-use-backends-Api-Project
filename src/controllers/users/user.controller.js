@@ -1,7 +1,7 @@
 //import { User } from "../../models/user.models.js";
 import jwt from "jsonwebtoken";
 import { APP_URL, GOOGLE_ACCESS_TOKEN_URL, GOOGLE_CALLBACK_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_OAUTH_SCOPES, GOOGLE_OAUTH_URL, GOOGLE_TOKEN_INFO_URL, JWT_SECRET } from "../../constants.js";
-import { User } from "../../models/user.models.js";
+import { User } from "../../models/index.model.js";
 import ApiError from "../../utils/apiError.js";
 import ApiSuccess from "../../utils/apiSuccess.js";
 import asyncHandler from "../../utils/asyncHandler.js";

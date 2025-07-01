@@ -1,4 +1,5 @@
-import { Subcategory } from "../../models/subcategory.model.js";
+
+import { Subcategory } from "../../models/index.model.js";
 import ApiSuccess from "../../utils/apiSuccess";
 
 const gotSubcategories = async (req, res ) => {
