@@ -11,7 +11,7 @@ const subcategory = new Schema(
         type: String,
         required: true,
       },
-      public_id:{
+      public_id: {
         type: String,
         required: true,
       },
@@ -20,6 +20,10 @@ const subcategory = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Category',
       required: true,
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   {

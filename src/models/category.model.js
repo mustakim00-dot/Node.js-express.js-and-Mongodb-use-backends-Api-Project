@@ -27,6 +27,11 @@ subcategories:[{
 
 },
 ],
+createdBy : {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+},
 },
 {
     timestamps:true,
