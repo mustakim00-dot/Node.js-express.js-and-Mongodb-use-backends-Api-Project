@@ -10,6 +10,7 @@ slug:{
     type: String,
     //required: true,
     unique: true,
+    index: true,
 },
 image: {
     url: {
@@ -21,12 +22,12 @@ image: {
         //required: true,
     },
 },
-subcategories:[{
-    type: Schema.Types.ObjectId,
-    ref: 'Subcategory',
+// subcategories:[{
+//     type: Schema.Types.ObjectId,
+//     ref: 'Subcategory',
 
-},
-],
+// },
+// ],
 createdBy : {
     type: Schema.Types.ObjectId,
     ref: 'User',
