@@ -1,9 +1,9 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import { WHITELIST } from './constants.js';
+import { ACCESS_TOKEN_SECRET, WHITELIST } from './constants.js';
 import errorHandler from './middlewares/errorHandler.middleware.js';
-
+import rateLimit from 'express-rate-limit';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,7 +16,19 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser());
+app.use(cookieParser(ACCESS_TOKEN_SECRET));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+limit: (req,_res) => (req.user ? 100 : 10), 
+  standardHeaders: 'draft-8', 
+  legacyHeaders: true,
+  message:'Too many requests from this IP, please try again after 15 minutes',
+  keyGenerator: (req) => req.ip, 
+});
+app.use(limiter);
+
+
 //define routes
 import healthCheckRoute from './routes/healthCheck.route.js'; //problem
 import userRoute from './routes/user.route.js';

@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+//import { Subcategory } from "./subcategory.model.js";
 
 const category = new Schema({
 name: {
@@ -36,7 +37,17 @@ createdBy : {
 },
 {
     timestamps:true,
-})
+});
+
+// category.pre('remove',async function (next) {
+// try{
+//     //console.log(`Deleting subcategories for category : ${this._id}`);
+//     await Subcategory.deleteMany({ category: this._id });
+//     next();
+// }catch (err){
+//     next(err);
+// }
+// });
 
 // one to many relationship
 export const Category = mongoose.models.Category || mongoose.model('Category', category);
