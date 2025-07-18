@@ -1,12 +1,12 @@
 
 //import { category } from "../../models/category.model.js";
 //import { Category } from "../../models/category.model.js";
-import { Subcategory } from "../../models/subcategory.model.js";
-import ApiError from "../../utils/apiError.js";
-import ApiSuccess from "../../utils/apiSuccess.js";
-import asyncHandler from "../../utils/asyncHandler.js";
-import { fileUpload } from "../../utils/fileUpload.js";
-import { subcategoryImageSchema } from "../../validators/subcategory.validators.js";
+import { Subcategory } from "../models/subcategory.model.js";
+import ApiError from "../utils/apiError.js";
+import ApiSuccess from "../utils/apiSuccess.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import { fileUpload } from "../utils/fileUpload.js";
+import { subcategoryImageSchema } from "../validators/subcategory.validators.js";
 
 const getSubCategories = asyncHandler(async (req, res) => {
   const subcategories = await Subcategory.find({

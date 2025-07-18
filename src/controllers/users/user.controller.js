@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import { APP_URL, GOOGLE_ACCESS_TOKEN_URL, GOOGLE_CALLBACK_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_OAUTH_SCOPES, GOOGLE_OAUTH_URL, GOOGLE_TOKEN_INFO_URL, JWT_SECRET } from "../../constants.js";
 //import { User } from "../../models/index.model.js";
 
+import { User } from "../../models/user.models.js";
 import ApiError from "../../utils/apiError.js";
 import ApiSuccess from "../../utils/apiSuccess.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 import { fileUpload } from "../../utils/fileUpload.js";
 import { forgetPasswordFormat, sendMail, verifyEmailFormat } from "../../utils/mail.js";
 import { avatarUploadSchema } from "../../validators/user.validator.js";
-import { User } from "../../models/user.models.js";
 
 
 const signup = asyncHandler(async (req,res)=> {
@@ -212,7 +212,7 @@ const updateUser = asyncHandler(async(req,res) => {
         sendMail({
         email,
         subject: 'Verify your email',
-        mailFormat: verifyEmail(name, verifyUrl),
+        mailFormat: verifyEmailFormat(name, verifyUrl),
     })
     }
     }
@@ -224,7 +224,7 @@ const updateUser = asyncHandler(async(req,res) => {
 
 const updatePassword = asyncHandler(async(req,res) => {
     const {oldPassword, newPassword} = req.body;
-    const user = req.user;
+    const user = await User.findById(req.user._id);
     if(oldPassword === newPassword){
         throw ApiError.badRequest('New password can not be same as old password');
     }
@@ -289,8 +289,9 @@ const resetPassword = asyncHandler(async(req,res) => {
 
 const avatarUpload = asyncHandler(async(req,res) => {
     const avatar = req.file;
+    console.log(req.file);
     const avatarValidation = avatarUploadSchema.safeParse(avatar);
-    if(!avatarValidation.error){
+    if(avatarValidation.error){
         throw ApiError.badRequest('Avatar is required');
     }
     // if(!avatar){
