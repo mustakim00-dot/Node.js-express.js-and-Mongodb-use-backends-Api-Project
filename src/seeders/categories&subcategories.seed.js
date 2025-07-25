@@ -53,6 +53,12 @@
 //     },
 // ];
 
+import mongoose from "mongoose";
+import { imageSeed } from "./image.seed.js";
+import { MONGO_URL } from "../constants.js";
+import { Category } from "../models/category.model.js";
+import { Subcategory } from "../models/subcategory.model.js";
+
 
 
 
@@ -62,19 +68,22 @@ const seedData = [
     slug: 'food',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Groceries', slug: 'groceries', image: { url: '', public_id: '' } },
-        { name: 'Restaurants', slug: 'restaurants', image: { url: '', public_id: '' } },
-        { name: 'Snacks and Drinks', slug: 'snacks and drinks', image: { url: '', public_id: '' } },
+      { name: 'Groceries', slug: 'groceries', image: { url: '', public_id: '' } },
+      { name: 'Restaurants', slug: 'restaurants', image: { url: '', public_id: '' } },
+      { name: 'Snacks and Drinks', slug: 'snacks and drinks', image: { url: '', public_id: '' } },
     ],
   },
   {
     name: 'Transport',
     slug: 'transport',
-    image: { url: '', public_id: '' },
+    image: {
+      url: 'https://res.cloudinary.com/dc1fwss8x/image/upload/v1753094125/seedingFiles/w5mxulksckslclrbkmnl.jpg',
+      public_id: 'seedingFiles/w5mxulksckslclrbkmnl',
+    },
     subcategories: [
-        { name: 'Fuel', slug: 'fuel', image: { url: '', public_id: '' } },
-        { name: 'Public Transport', slug: 'public transport', image: { url: '', public_id: '' } },
-        { name: 'Ride Sharing', slug: 'ride sharing', image: { url: '', public_id: '' } },
+      { name: 'Fuel', slug: 'fuel', image: { url: '', public_id: '' } },
+      { name: 'Public Transport', slug: 'public transport', image: { url: '', public_id: '' } },
+      { name: 'Ride Sharing', slug: 'ride sharing', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -82,9 +91,9 @@ const seedData = [
     slug: 'housing',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Rent', slug: 'rent', image: { url: '', public_id: '' } },
-        { name: ' Utilities', slug: ' Utilities', image: { url: '', public_id: '' } },
-        { name: 'Maintenance', slug: 'Maintenance', image: { url: '', public_id: '' } },
+      { name: 'Rent', slug: 'rent', image: { url: '', public_id: '' } },
+      { name: ' Utilities', slug: ' Utilities', image: { url: '', public_id: '' } },
+      { name: 'Maintenance', slug: 'Maintenance', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -92,9 +101,9 @@ const seedData = [
     slug: 'Health',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Medical Bills', slug: 'medical bills', image: { url: '', public_id: '' } },
-        { name: 'Medicine', slug: 'medicine', image: { url: '', public_id: '' } },
-        { name: 'Health Insurance', slug: 'Health insurance', image: { url: '', public_id: '' } },
+      { name: 'Medical Bills', slug: 'medical bills', image: { url: '', public_id: '' } },
+      { name: 'Medicine', slug: 'medicine', image: { url: '', public_id: '' } },
+      { name: 'Health Insurance', slug: 'Health insurance', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -102,9 +111,9 @@ const seedData = [
     slug: 'entertainment',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Streaming Services', slug: 'streaming services', image: { url: '', public_id: '' } },
-        { name: 'Movie and Shows', slug: 'Movie and Shows', image: { url: '', public_id: '' } },
-        { name: 'Games and Apps', slug: 'games and apps', image: { url: '', public_id: '' } },
+      { name: 'Streaming Services', slug: 'streaming services', image: { url: '', public_id: '' } },
+      { name: 'Movie and Shows', slug: 'Movie and Shows', image: { url: '', public_id: '' } },
+      { name: 'Games and Apps', slug: 'games and apps', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -112,9 +121,9 @@ const seedData = [
     slug: 'personal care',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Salon', slug: 'salon', image: { url: '', public_id: '' } },
-        { name: 'Cosmetics', slug: 'cosmetics', image: { url: '', public_id: '' } },
-        { name: 'Fitness', slug: 'fitness', image: { url: '', public_id: '' } },
+      { name: 'Salon', slug: 'salon', image: { url: '', public_id: '' } },
+      { name: 'Cosmetics', slug: 'cosmetics', image: { url: '', public_id: '' } },
+      { name: 'Fitness', slug: 'fitness', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -122,9 +131,9 @@ const seedData = [
     slug: 'education',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Tuition Fees', slug: 'tuition fees', image: { url: '', public_id: '' } },
-        { name: 'Books and Supplies', slug: 'Books and Supplies', image: { url: '', public_id: '' } },
-        { name: 'Online Courses', slug: 'Online Courses', image: { url: '', public_id: '' } },
+      { name: 'Tuition Fees', slug: 'tuition fees', image: { url: '', public_id: '' } },
+      { name: 'Books and Supplies', slug: 'Books and Supplies', image: { url: '', public_id: '' } },
+      { name: 'Online Courses', slug: 'Online Courses', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -132,9 +141,9 @@ const seedData = [
     slug: 'shopping',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Clothing', slug: 'clothing', image: { url: '', public_id: '' } },
-        { name: 'Electronics', slug: 'electronics', image: { url: '', public_id: '' } },
-        { name: 'Household Items', slug: 'household items', image: { url: '', public_id: '' } },
+      { name: 'Clothing', slug: 'clothing', image: { url: '', public_id: '' } },
+      { name: 'Electronics', slug: 'electronics', image: { url: '', public_id: '' } },
+      { name: 'Household Items', slug: 'household items', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -142,9 +151,9 @@ const seedData = [
     slug: 'travel',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Flights', slug: 'flights', image: { url: '', public_id: '' } },
-        { name: 'Hotels', slug: 'hotels', image: { url: '', public_id: '' } },
-        { name: 'Tours', slug: 'tours', image: { url: '', public_id: '' } },
+      { name: 'Flights', slug: 'flights', image: { url: '', public_id: '' } },
+      { name: 'Hotels', slug: 'hotels', image: { url: '', public_id: '' } },
+      { name: 'Tours', slug: 'tours', image: { url: '', public_id: '' } },
     ],
   },
   {
@@ -152,10 +161,56 @@ const seedData = [
     slug: 'others',
     image: { url: '', public_id: '' },
     subcategories: [
-        { name: 'Charity', slug: 'Charity', image: { url: '', public_id: '' } },
-        { name: 'Gifts', slug: 'gifts', image: { url: '', public_id: '' } },
-        { name: 'Miscellaneous', slug: 'Miscellaneous', image: { url: '', public_id: '' } },
+      { name: 'Charity', slug: 'Charity', image: { url: '', public_id: '' } },
+      { name: 'Gifts', slug: 'gifts', image: { url: '', public_id: '' } },
+      { name: 'Miscellaneous', slug: 'Miscellaneous', image: { url: '', public_id: '' } },
     ],
   },
-
 ];
+
+
+export async function seedCategories() {
+  await mongoose.connect(MONGO_URL);
+console.log('DB connected');
+
+await Category.deleteMany({});
+await Subcategory.deleteMany({});
+
+
+
+  const imageSeedData = await imageSeed();
+ imageSeedData.forEach( image => {
+   seedData.forEach(category => {
+      if(category.name === image.original_filename){
+        category.image.url = image.url;
+        category.image.public_id = image.public_id;
+      } else{
+        category.subcategories.map(subcategory => {
+          if (subcategory.name === image.original_filename){
+            subcategory.image.url = image.url;
+            subcategory.image.public_id = image.public_id;
+          }
+        });
+      }
+    });
+  });
+  console.log('image seeding done');
+  for(const item of seedData) {
+    const category = await Category.create({
+      name: item.name,
+      slug: item.slug,
+      image: item.image,
+    });
+    const subcategories = item.subcategories.map(sub => ({
+      ... sub,
+      category: category._id,
+    }));
+
+    await Subcategory.insertMany(subcategories);
+  }
+  console.log('Categories seeded successfully');;
+  
+}
+ 
+
+//seedCategories();

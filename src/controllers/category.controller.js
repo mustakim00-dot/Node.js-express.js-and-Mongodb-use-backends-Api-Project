@@ -124,7 +124,7 @@ const deleteCategory = asyncHandler(async(req,res) => {
     }
     await Subcategory.deleteMany({ category: category._id });
     //await category.remove();
-    return res.status(204).json(ApiSuccess.noContent('Category deleted'));
+    return res.status(201).json('Hello');
 });
 
 

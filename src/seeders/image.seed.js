@@ -6,10 +6,10 @@ import { fileUpload } from '../utils/fileUpload.js';
 const mainDirPath = path.resolve("public/images");
 
 const getImagesPath = dir => fs.readdirSync(dir).map(file => path.join(dir, file));
-const resolve = async () => {
+export  const imageSeed = async () => {
    const data = await Promise.all(
        getImagesPath(mainDirPath).map(async filepath => {
-        return await fileUpload(filepath, {
+       return await fileUpload(filepath, {
          folder: 'seedingFiles',
          user_filename: true,
          resource_type: 'image',
@@ -23,10 +23,42 @@ const resolve = async () => {
  return data; 
 };
 //console.log(resolve());
-resolve().then(data => console.log(data));
+//resolve().then(data => console.log(data)).catch(err => console.log(err));
 
 
  //console.log(getImagesPath(mainDirPath));
+
+
+// import fs from 'fs';
+// import path from 'path';
+// import { fileUpload } from '../utils/fileUpload.js';
+
+// const mainDirPath = path.resolve('public/images');
+
+// // Get all image paths in the directory
+// const getImagesPath = dir => fs.readdirSync(dir).map(file => path.join(dir, file));
+
+// // Upload all images
+// const resolve = async () => {
+//   const data = await Promise.all(
+//     getImagesPath(mainDirPath).map(async filepath => {
+//       return await fileUpload(filepath, {
+//         folder: 'seedingFiles',
+//         user_filename: true,
+//         resource_type: 'image',
+//         overwrite: true,
+//         // unique_filename: true,
+//         // public_id: name, // you can customize if needed
+//       });
+//     })
+//   );
+//   return data;
+// };
+
+// // Run and log results
+// resolve()
+//   .then(data => console.log(data))
+//   .catch(err => console.error(err));
 
  
 
