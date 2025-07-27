@@ -56,6 +56,7 @@ import ApiError from './apiError.js';
 //   console.log(autoCropUrl);
 
 import { v2 as cloudinary } from 'cloudinary';
+import { existsSync, unlinkSync } from 'fs';
 import { CLOUD_API_KEY, CLOUD_API_SECRET, CLOUD_NAME } from '../constants.js';
 import ApiError from './apiError.js';
 
@@ -69,10 +70,10 @@ const fileUpload = async (file, options) => {
   try {
     const data = await cloudinary.uploader.upload(file, { ...options });
 
-   //if(existsSync(file)) unlinkSync(file);
+   if(existsSync(file)) unlinkSync(file);
     return data;
   } catch (error) {
-   //if (existsSync(file)) unlinkSync(file);
+   if (existsSync(file)) unlinkSync(file);
     throw ApiError.serverError(error.message);
   }
 };

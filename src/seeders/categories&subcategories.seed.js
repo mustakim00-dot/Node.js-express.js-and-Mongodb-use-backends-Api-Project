@@ -54,10 +54,10 @@
 // ];
 
 import mongoose from "mongoose";
-import { imageSeed } from "./image.seed.js";
 import { MONGO_URL } from "../constants.js";
 import { Category } from "../models/category.model.js";
 import { Subcategory } from "../models/subcategory.model.js";
+import { imageSeed } from "./image.seed.js";
 
 
 
@@ -182,35 +182,123 @@ await Subcategory.deleteMany({});
  imageSeedData.forEach( image => {
    seedData.forEach(category => {
       if(category.name === image.original_filename){
-        category.image.url = image.url;
-        category.image.public_id = image.public_id;
-      } else{
-        category.subcategories.map(subcategory => {
+        category.image = {
+          url: image.url,
+          public_id: image.public_id,
+        };
+      } 
+
+        category.subcategories.forEach(subcategory => {
           if (subcategory.name === image.original_filename){
-            subcategory.image.url = image.url;
-            subcategory.image.public_id = image.public_id;
+            subcategory.image = {
+              url: image.url,
+              public_id: image.public_id,
+            }
           }
         });
-      }
     });
   });
+
   console.log('image seeding done');
   for(const item of seedData) {
+    
+      const isExists = await Category.findOne({name: item.name});
+      if(isExists) {
+        console.log(`Skipping duplicate category: ${item.name}`);
+        continue;
+      }
+
+
     const category = await Category.create({
       name: item.name,
       slug: item.slug,
       image: item.image,
     });
-    const subcategories = item.subcategories.map(sub => ({
+
+    const validSubcategories = item.subcategories.filter( sub => sub.image && sub.image.url && sub.image.public_id);
+
+    const subcategories = validSubcategories.map(sub => ({
       ... sub,
       category: category._id,
     }));
+    console.log("sub-1");
+    
 
     await Subcategory.insertMany(subcategories);
+    console.log("sub-2");
+
   }
-  console.log('Categories seeded successfully');;
+  console.log('Categories seeded successfully');
   
 }
  
 
-//seedCategories();
+seedCategories();
+
+
+// export async function seedCategories() {
+//   await mongoose.connect(MONGO_URL);
+//   console.log('DB connected');
+
+//   await Category.deleteMany({});
+//   await Subcategory.deleteMany({});
+
+//   const imageSeedData = await imageSeed();
+
+//   // ইমেজ গুলা ক্যাটেগরি এবং সাবক্যাটেগরিতে সেট করো
+//   imageSeedData.forEach(image => {
+//     seedData.forEach(category => {
+//       if (category.name === image.original_filename) {
+//         category.image = {
+//           url: image.url,
+//           public_id: image.public_id,
+//         };
+//       }
+
+//       category.subcategories.forEach(subcategory => {
+//         if (subcategory.name === image.original_filename) {
+//           subcategory.image = {
+//             url: image.url,
+//             public_id: image.public_id,
+//           };
+//         }
+//       });
+//     });
+//   });
+
+//   console.log('image seeding done');
+
+//   for (const item of seedData) {
+//     // ডুপ্লিকেট চেক
+//     const isExist = await Category.findOne({ name: item.name });
+//     if (isExist) {
+//       console.log(`Skipping duplicate category: ${item.name}`);
+//       continue;
+//     }
+
+//     const category = await Category.create({
+//       name: item.name,
+//       slug: item.slug,
+//       image: item.image,
+//     });
+
+//     const validSubcategories = item.subcategories.filter(
+//       sub => sub.image && sub.image.url && sub.image.public_id
+//     );
+
+//     const subcategories = validSubcategories.map(sub => ({
+//       ...sub,
+//       category: category._id,
+//     }));
+
+//     console.log('sub-1');
+
+//     await Subcategory.insertMany(subcategories);
+//     console.log('sub-2');
+//   }
+
+//   console.log('Categories seeded successfully');
+// }
+
+// seedCategories();
+
