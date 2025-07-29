@@ -32,5 +32,29 @@ const createGroup = asyncHandler(async (req,res ) => {
     return res.status(200).json(ApiSuccess.created("group created", group));
 });
 
-export { createGroup };
+const addMember = asyncHandler(async (req, res) => {
+    const { groupId } = req.params; 
+    const { members } = req.body;
+    const userId = req.user._id; 
+    const groupExists = await Group.findById(groupId);
+    if(!groupExists) {
+        throw ApiError.notFound("Group not found");
+    }
+    if( userId.toString() != groupExists.createdBy.toString()) {
+        throw ApiError.forbidden(" you are not authorized to add members to this group");
+    }
+    const newMembers = members.filter(member => {
+        return groupExists.members.includes(member) === false;
+    });
+    if(newMembers.length === 0){
+        throw ApiError.badRequest("No new numbers to add");
+    }
+    groupExists.members = [ ...groupExists.members, ...newMembers];
+    
+    await groupExists.save();
+    return res.status(200).json(ApiSuccess.created(" Members added to group", groupExists));
+
+});
+
+export { addMember, createGroup };
 
