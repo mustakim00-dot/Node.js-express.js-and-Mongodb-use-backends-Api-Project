@@ -5,8 +5,9 @@ const createGroupSchema = z.object({
     //slug: z.string().optional(),
 });
 
-const addGroupMembersSchema = z.object({
+const groupMembersSchema = z.object({
     members : z.array(z.string()).min(1),
 })
 
-export { createGroupSchema, addGroupMembersSchema };
+export { createGroupSchema, groupMembersSchema };
+

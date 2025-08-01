@@ -11,7 +11,7 @@ export  const imageSeed = async () => {
        getImagesPath(mainDirPath).map(async filepath => {
        return await fileUpload(filepath, {
          folder: 'seedingFiles',
-         user_filename: true,
+         use_filename: true,
          resource_type: 'image',
          overwrite: true,
    //unique_filename: true,
