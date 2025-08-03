@@ -105,7 +105,7 @@ const updateGroup = asyncHandler(async (req, res ) => {
     }
 
     const groupName = await Group.findOne({
-        $and: [{ name: req.body.name }, { createdBy: req.user._id }],
+        $and: [{_id: { $ne: groupId }} , { name: req.body.name }, { createdBy: req.user._id }],
     })
     if(groupName) {
         throw ApiError.badRequest("Group name already exists");
