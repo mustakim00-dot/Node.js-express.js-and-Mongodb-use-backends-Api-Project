@@ -35,12 +35,14 @@ import groupRoute from './routes/group.route.js';
 import healthCheckRoute from './routes/healthCheck.route.js'; //problem
 import subcategoryRoute from './routes/subcategory.route.js';
 import userRoute from './routes/user.route.js';
+import expenseRouter from './routes/expense.route.js';
 
 app.use(healthCheckRoute);
 app.use("/api/v1/users",userRoute);
 app.use("/api/v1", categoryRoute);
 app.use("/api/v1", subcategoryRoute);
 app.use("/api/v1", groupRoute);
+app.use("/api/v1", expenseRouter);
 
 app.use(errorHandler); // problem 
 export { app };

@@ -2,7 +2,7 @@ import { Group } from "../models/group.model.js";
 import ApiError from "../utils/apiError.js";
 import ApiSuccess from "../utils/apiSuccess.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { fileUpload } from "../utils/fileUpload.js";
+import { deleteFile, fileUpload } from "../utils/fileUpload.js";
 
 const createGroup = asyncHandler(async (req,res ) => {
     const groupExists = await Group.findOne({
@@ -89,12 +89,14 @@ const updateGroup = asyncHandler(async (req, res ) => {
     }
 
     const groupLogo = req.file;
+    //console.log(groupLogo);
+    
     if (groupLogo) {
+     
       const result = await fileUpload(groupLogo.path, {
         folder: 'groups',
-        user_filename: true,
+        use_filename: true,
         resource_type: 'image',
-        overwrite: true,
         //unique_filename: true,
         public_id: req.body.name + Date.now(),
       });
@@ -102,6 +104,7 @@ const updateGroup = asyncHandler(async (req, res ) => {
         url: result.secure_url,
         public_id: result.public_id,
       };
+      deleteFile(groupExists.image.public_id);
     }
 
     const groupName = await Group.findOne({
