@@ -6,6 +6,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 const createMyExpense = asyncHandler(async (req, res) => {
     const expense = await Expense.create({
         ...req.body,
+        paidBy: req.user._id,
         createdBy: req.user._id   
     });
     return res.status(200).json(ApiSuccess.created('Expense created ', expense));
