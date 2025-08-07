@@ -62,8 +62,11 @@ const createCategory = asyncHandler(async(req,res) => {
 return res.status(201).json(ApiSuccess.ok('Category created', category));
 });
 
+
 const gotCategory = asyncHandler(async(req,res) => {
     const { slugParam } = req.params;
+    console.log(slugParam);
+    
     const category = await Category.find({ slug: slugParam });
     const subcategories = await Subcategory.find({category: category._id});
     //  .populate('subcategories');
@@ -74,6 +77,25 @@ const gotCategory = asyncHandler(async(req,res) => {
 
 
 })
+
+// const gotCategory = asyncHandler(async (req, res) => {
+//   const { slugParam } = req.params;
+//   console.log(slugParam);
+  
+
+//   // Use findOne instead of find, since slug should be unique
+//   const category = await Category.findOne({ slug: slugParam });
+
+//   if (!category) {
+//     throw ApiError.notFound('Category not found');
+//   }
+
+//   // Now you can safely use category._id
+//   const subcategories = await Subcategory.find({ category: category._id });
+
+//   return res.status(200).json(ApiSuccess.ok('Category fetched', { category, subcategories }));
+// });
+
 
 const updateCategory = asyncHandler(async(req,res) => {
     const { slugParam } = req.params;
